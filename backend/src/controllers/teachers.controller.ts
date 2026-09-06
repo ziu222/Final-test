@@ -11,7 +11,7 @@ export async function listTeachers(req: Request, res: Response, next: NextFuncti
     const [teachers, total] = await Promise.all([
       Teacher.find({ isDeleted: false })
         .populate('userId', 'name email phoneNumber address')
-        .populate('teacherPositions', 'name')
+        .populate('teacherPositionsId', 'name')
         .skip((page - 1) * limit)
         .limit(limit)
         .lean(),
@@ -25,7 +25,7 @@ export async function listTeachers(req: Request, res: Response, next: NextFuncti
       phoneNumber: t.userId?.phoneNumber,
       address: t.userId?.address,
       isActive: t.isActive,
-      positions: (t.teacherPositions ?? []).map((p: any) => p.name),
+      positions: (t.teacherPositionsId ?? []).map((p: any) => p.name),
       degrees: t.degrees ?? [],
     }));
 
@@ -78,13 +78,13 @@ export async function createTeacher(req: Request, res: Response, next: NextFunct
       code,
       startDate,
       endDate,
-      teacherPositions: teacherPositions ?? [],
+      teacherPositionsId: teacherPositions ?? [],
       degrees: degrees ?? [],
     });
 
     await teacher.populate([
       { path: 'userId', select: 'name email phoneNumber address' },
-      { path: 'teacherPositions', select: 'name' },
+      { path: 'teacherPositionsId', select: 'name' },
     ]);
 
     res.status(201).json({ data: teacher });

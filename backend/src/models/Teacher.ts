@@ -16,7 +16,7 @@ export interface ITeacher {
   isDeleted: boolean;
   startDate: Date;
   endDate?: Date;
-  teacherPositions: Types.ObjectId[];
+  teacherPositionsId: Types.ObjectId[];
   degrees: IDegree[];
 }
 
@@ -38,7 +38,7 @@ const teacherSchema = new Schema<ITeacher>({
   isDeleted: { type: Boolean, default: false },
   startDate: { type: Date, required: true },
   endDate: { type: Date },
-  teacherPositions: [{ type: Schema.Types.ObjectId, ref: 'TeacherPosition' }],
+  teacherPositionsId: [{ type: Schema.Types.ObjectId, ref: 'TeacherPosition' }],
   degrees: [degreeSchema],
 });
 
