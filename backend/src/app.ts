@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import teacherPositionsRouter from './routes/teacherPositions.routes';
 import { errorHandler } from './middleware/errorHandler';
 
 export function createApp() {
@@ -8,6 +9,7 @@ export function createApp() {
   app.use(express.json());
 
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+  app.use('/teacher-positions', teacherPositionsRouter);
 
   app.use(errorHandler);
   return app;
